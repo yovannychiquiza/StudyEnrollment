@@ -3,6 +3,7 @@ using StudyEnrollment.Pocos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace StudyEnrollment.BusinessLogic
@@ -21,6 +22,15 @@ namespace StudyEnrollment.BusinessLogic
         {
             base.Update(pocos);
         }
-       
+
+        public override List<Student> GetAll()
+        {
+            Expression<Func<Student, object>> filter1 = c => c.Enrollments;
+            var filterExpressions = new List<Expression<Func<Student, object>>> { filter1 }.ToArray();
+
+            return _repository.GetAll(filterExpressions).ToList();
+        }
+
+
     }
 }
